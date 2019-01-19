@@ -37,16 +37,16 @@ public class MainActivity extends AppCompatActivity {
 
     private File output = null;
     private String mSelectedImageUri = null;
+    AppController controller = AppController.getInstance();
+
+    int month = controller.getMonthToView();
+    int year = controller.getYearToView();
+    // TODO: If month, year not current date, have a button to go back to current date & refresh
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        AppController controller = AppController.getInstance();
-
-        int month = controller.getMonthToView();
-        int year = controller.getYearToView();
 
         Button button = findViewById(R.id.button);
 
