@@ -13,10 +13,20 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.model.Document;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.entity.FileEntity;
+import org.apache.http.util.EntityUtils;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.client.methods.HttpPost;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,6 +35,9 @@ import java.util.Map;
 
 public class AppController {
     private static AppController instance = null;
+    private static final String subscriptionKey = "5d2877f2eb5b418a8924292a56188d01";
+    private static final String uriBase =
+            "https://eastus.api.cognitive.microsoft.com/vision/v2.0/ocr";
 
     private String[] categories =  new String[]{"Dining", "Clothing", "Entertainment", "Other"};
 
@@ -35,6 +48,26 @@ public class AppController {
             instance = new AppController();
         }
         return instance;
+    }
+
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+    Date date = new Date(System.currentTimeMillis());
+    String dateFormatted = formatter.format(date);
+    // Current date
+    private int monthToView = Integer.parseInt(dateFormatted.substring(0, 3));
+    private int yearToView = Integer.parseInt(dateFormatted.substring(5, 6));
+
+    public int getMonthToView(){
+        return monthToView;
+    }
+
+    public int getYearToView() {
+        return yearToView;
+    }
+
+    public void changeDate(int month, int year){
+        monthToView = month;
+        yearToView = year;
     }
 
     /**
@@ -103,9 +136,6 @@ public class AppController {
     }
 
     public void updateData(Map<String, Double> newData){
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-        Date date = new Date(System.currentTimeMillis());
-        String dateFormatted = formatter.format(date);
         // Current date
         int year = Integer.parseInt(dateFormatted.substring(0, 3));
         int month = Integer.parseInt(dateFormatted.substring(5, 6));
@@ -123,8 +153,42 @@ public class AppController {
         }
     }
 
-    public JSONObject imageRead(String path){
-        // TODO: convert image to JSON using API
+    public JSONObject imageRead(String path) {
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+
+        try {
+            URIBuilder uriBuilder = new URIBuilder(uriBase);
+
+            uriBuilder.setParameter("language", "unk");
+            uriBuilder.setParameter("detectOrientation", "true");
+
+            // Request parameters.
+            URI uri = uriBuilder.build();
+            HttpPost request = new HttpPost(uri);
+
+            request.setHeader("Content-Type", "applications/octet-stream");
+
+            File file = new File(path);
+            FileEntity requestEntity = new FileEntity(file, "image/png");
+
+            request.setEntity(requestEntity);
+
+            // Call the REST API method and get the response entity.
+            HttpResponse response = httpClient.execute(request);
+            HttpEntity entity = response.getEntity();
+
+            if (entity != null) {
+                // Format and display the JSON response.
+                String jsonString = EntityUtils.toString(entity);
+                JSONObject json = new JSONObject(jsonString);
+                return json;
+//                System.out.println("REST Response:\n");
+//                System.out.println(json.toString(2));
+            }
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
         return null;
     }
 
