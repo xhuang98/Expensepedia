@@ -23,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        AppController controller = AppController.getInstance();
+
+        int month = controller.getMonthToView();
+        int year = controller.getYearToView();
+
         Button button = findViewById(R.id.button);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
