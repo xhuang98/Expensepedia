@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "598608686783",
+    "firebase_url": "https://expensepedia-e3786.firebaseio.com",
+    "project_id": "expensepedia-e3786",
+    "storage_bucket": "expensepedia-e3786.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598608686783:android:29f4c9e56b495d20",
+        "android_client_info": {
+          "package_name": "uofthacks.expensepedia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "598608686783-fklnnfsmv25ltq5tu9gqcut1o2jd1q27.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_WZn5AuAOZ8e7k_6XWW7aZTNjwopyY-w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
