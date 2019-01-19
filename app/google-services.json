@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "598608686783-tfet9mk1lo4t47d8skhd2a9sd6la5dj5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "uofthacks.expensepedia",
+            "certificate_hash": "cdf7fbf3712dfb11459db74d32de14a3c35ae7f3"
+          }
+        },
+        {
           "client_id": "598608686783-fklnnfsmv25ltq5tu9gqcut1o2jd1q27.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "598608686783-fklnnfsmv25ltq5tu9gqcut1o2jd1q27.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
