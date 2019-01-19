@@ -34,6 +34,26 @@ public class AppController {
         return instance;
     }
 
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+    Date date = new Date(System.currentTimeMillis());
+    String dateFormatted = formatter.format(date);
+    // Current date
+    private int monthToView = Integer.parseInt(dateFormatted.substring(0, 3));
+    private int yearToView = Integer.parseInt(dateFormatted.substring(5, 6));
+
+    public int getMonthToView(){
+        return monthToView;
+    }
+
+    public int getYearToView() {
+        return yearToView;
+    }
+
+    public void changeDate(int month, int year){
+        monthToView = month;
+        yearToView = year;
+    }
+
     /**
      * Returns a map of expense category to expense amount of specified month and year
      */
@@ -51,9 +71,6 @@ public class AppController {
     }
 
     public void updateData(Map<String, Double> newData){
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-        Date date = new Date(System.currentTimeMillis());
-        String dateFormatted = formatter.format(date);
         // Current date
         int year = Integer.parseInt(dateFormatted.substring(0, 3));
         int month = Integer.parseInt(dateFormatted.substring(5, 6));
