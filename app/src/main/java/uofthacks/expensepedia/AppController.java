@@ -1,5 +1,18 @@
 package uofthacks.expensepedia;
 
+import android.provider.DocumentsContract;
+import android.support.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.model.Document;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,10 +20,13 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AppController {
     private static AppController instance = null;
+
+    private String[] categories =  new String[]{"Dining", "Clothing", "Entertainment", "Other"};
 
     private AppController(){}
 
@@ -27,14 +43,63 @@ public class AppController {
     public Map<String, Double> getData(int month, int year){
         Map<String, Double> result = new HashMap<String, Double>();
         // TODO: map expense type to expenses
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference docRef = db.collection("purchases").document(month + ", " + year);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        System.out.println("Document exists");
+                        for (String category: categories) {
+                            // TODO: use the data somehow
+                            //map.put(category, document.get(category));
+                        }
+                    } else {
+                        System.out.println("Document does not exist");
+                    }
+                } else {
+                    System.out.println("Task failed");
+                }
+            }
+        });
+
         return result;
     }
-
     /**
      * Adds a map of expense category to expense amount of specified month and year
      */
-    public void addData(Map<String, Double> data, int month, int year){
+    public void addData(final Map<String, Double> data, final int month, final int year){
         // TODO: add data to database
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference docRef = db.collection("purchases").document(month + ", " + year);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        System.out.println("Document exists");
+                        Map<String, Double> updatedMap = new HashMap<>();
+                        for (String category: categories) {
+                            updatedMap.put(category, (Double) document.get(category) + data.get(category));
+                        }
+
+                        db.collection("purchases").document(month + ", " + year)
+                                .set(updatedMap);
+                    } else {
+                        System.out.println("Document does not exist");
+                        db.collection("purchases").document(month + ", " + year)
+                                .set(data);
+                    }
+                } else {
+                    System.out.println("Error getting document");
+                }
+            }
+        });
     }
 
     public void updateData(Map<String, Double> newData){
