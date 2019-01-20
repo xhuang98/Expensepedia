@@ -13,14 +13,14 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.model.Document;
 
-import org.apache.http.HttpEntity;
+/*import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.util.EntityUtils;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPost;*/
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -153,7 +153,7 @@ public class AppController {
         }
     }
 
-    public JSONObject imageRead(String path) {
+/*    public JSONObject imageRead(String path) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
         try {
@@ -190,7 +190,7 @@ public class AppController {
             System.err.println(e.getMessage());
         }
         return null;
-    }
+    }*/
 
     /**
      * Extracts purchased items and their prices from JSON object of texts in image
