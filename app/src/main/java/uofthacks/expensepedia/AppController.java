@@ -13,14 +13,14 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.model.Document;
 
-import org.apache.http.HttpEntity;
+/*import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.util.EntityUtils;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPost;*/
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.net.URI;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -75,7 +76,7 @@ public class AppController {
      */
     public Map<String, Double> getData(int month, int year){
         Map<String, Double> result = new HashMap<String, Double>();
-        // TODO: map expense type to expenses
+        // map expense type to expenses
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         DocumentReference docRef = db.collection("purchases").document(month + ", " + year);
@@ -105,7 +106,7 @@ public class AppController {
      * Adds a map of expense category to expense amount of specified month and year
      */
     public void addData(final Map<String, Double> data, final int month, final int year){
-        // TODO: add data to database
+        // add data to database
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         DocumentReference docRef = db.collection("purchases").document(month + ", " + year);
@@ -140,20 +141,20 @@ public class AppController {
         int year = Integer.parseInt(dateFormatted.substring(0, 3));
         int month = Integer.parseInt(dateFormatted.substring(5, 6));
 
-        boolean dateExists = false; // TODO: determine whether year + month already exists in database
-        if(dateExists){
-            Map<String, Double> oldData = getData(month, year);
-            for (String category: oldData.keySet()){
-                // update data
-                oldData.put(category, oldData.get(category) + newData.get(category));
-            }
-        }
-        else {
+//        boolean dateExists = false; // TODO: determine whether year + month already exists in database
+//        if(dateExists){
+//            Map<String, Double> oldData = getData(month, year);
+//            for (String category: oldData.keySet()){
+//                // update data
+//                oldData.put(category, oldData.get(category) + newData.get(category));
+//            }
+//        }
+//        else {
             addData(newData, month, year);
-        }
+        //}
     }
 
-    public JSONObject imageRead(String path) {
+/*    public JSONObject imageRead(String path) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
         try {
@@ -190,6 +191,43 @@ public class AppController {
             System.err.println(e.getMessage());
         }
         return null;
+    }*/
+    public ArrayList<Item> categorize(Map<String, Double> purchases){
+        ArrayList<Item> uncertains = new ArrayList<>();
+        Map<String, Double> certains = new HashMap<>();
+        try{
+            for (String purchase : purchases.keySet()) {
+                // TODO: use classifyText() from Google
+                JSONObject prediction;
+                String predCategory;
+                if(prediction.get("name").matches("/Food & Drink")){
+                    predCategory = "Food";
+                }
+                else if(prediction.get("name").matches("/Shopping/Apparel")){
+                    predCategory = "Clothing";
+                }
+                else if(prediction.get("name").matches("/Arts & Entertainment")){
+                    predCategory = "Entertainment";
+                }
+                else{
+                    predCategory = "Other";
+                }
+
+                if(prediction.getDouble("confidence") > 0.8){
+                    certains.put(purchase, purchases.get(purchase));
+                }
+                else{
+                    Item uncertainItem = new Item(purchase, purchases.get(purchase), predCategory);
+                    uncertains.add(uncertainItem);
+                }
+            }
+            if(!certains.isEmpty()){
+                updateData(certains);
+            }
+        }catch (JSONException e){
+            // LOL
+        }
+        return uncertains;
     }
 
     /**
