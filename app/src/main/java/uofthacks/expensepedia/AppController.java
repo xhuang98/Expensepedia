@@ -211,11 +211,11 @@ public class AppController {
     }
 
 
-private Map<String, String> getCategories(){ // TODO: Access database
+public Map<String, String> getCategories(){ // TODO: Access database
     return null;
 }
 
-private void setCategories(Map<String, String> knownCat){
+public void setCategories(Map<String, String> knownCat){
     Map<String, String> newMap = getCategories();
     // union
     newMap.putAll(knownCat);
