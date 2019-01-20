@@ -192,7 +192,7 @@ public class AppController {
         }
         return null;
     }*/
-    public ArrayList<Item> categorize(Map<String, Double> purchases){
+/*    public ArrayList<Item> categorize(Map<String, Double> purchases){
         ArrayList<Item> uncertains = new ArrayList<>();
         Map<String, Double> certains = new HashMap<>();
         try{
@@ -228,7 +228,7 @@ public class AppController {
             // LOL
         }
         return uncertains;
-    }
+    }*/
 
     /**
      * Extracts purchased items and their prices from JSON object of texts in image

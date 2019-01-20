@@ -1,7 +1,5 @@
 package uofthacks.expensepedia;
 
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
