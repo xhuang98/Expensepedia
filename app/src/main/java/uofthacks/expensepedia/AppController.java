@@ -282,11 +282,11 @@ public class AppController {
 
     }
 
-private Map<String, String> getCategories(){ // TODO: Access database
+public Map<String, String> getCategories(){ // TODO: Access database
     return null;
 }
 
-private void setCategories(Map<String, String> knownCat){
+public void setCategories(Map<String, String> knownCat){
     Map<String, String> newMap = getCategories();
     // union
     newMap.putAll(knownCat);
@@ -397,10 +397,10 @@ public ArrayList<Item> categorize(Map<String, Double> purchases){
                 JSONArray words = line.getJSONArray("words");
                 if (words.length() == 1 && text.matches("^\\$?\\s*(\\d\\s*)+\\.\\s*\\d\\s*\\d$")){
                     if(text.matches("^\\$\\s*(\\d\\s*)+\\.\\s*\\d\\s*\\d$")){
-                        price = Double.parseDouble(text.subSequence(1, text.length()).toString());
+                        price = Double.parseDouble(text.subSequence(1, text.length()).toString().replaceAll("\\s+",""));
                     }
                     else{
-                        price = Double.parseDouble(text);
+                        price = Double.parseDouble(text.replaceAll("\\s+",""));
                     }
                     obj = lines.getJSONObject(i-1).getString("text");
                     result.put(obj, price);

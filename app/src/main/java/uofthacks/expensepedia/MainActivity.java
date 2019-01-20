@@ -51,15 +51,45 @@ public class MainActivity extends AppCompatActivity {
         CustomView customView = new CustomView(this);
 
         ImageButton button = findViewById(R.id.button);
+        ImageButton historyBtn = findViewById(R.id.history);
+        Button listViewBtn = findViewById(R.id.listViewBtn);
 
-
-        Button listViewBtn = (Button) findViewById(R.id.listViewBtn);
         listViewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, ManualSortActivity.class));
             }
         });
+
+        historyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, HistoryDataActivity.class));
+            }
+        });
+
+/*        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        CollectionReference col = db.collection("stores");
+
+        Map<String, Object> store = new HashMap<>();
+        store.put("name", "Best Buy");
+
+        db.collection("stores")
+                .add(store)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        System.out.println("DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        System.out.println("Error adding document");
+                    }
+                });*/
+
 
         File dir = getExternalFilesDir(Environment.DIRECTORY_DCIM);
         dir.mkdirs();
