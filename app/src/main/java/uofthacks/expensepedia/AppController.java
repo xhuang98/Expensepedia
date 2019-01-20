@@ -141,17 +141,17 @@ public class AppController {
         int year = Integer.parseInt(dateFormatted.substring(0, 3));
         int month = Integer.parseInt(dateFormatted.substring(5, 6));
 
-        boolean dateExists = false; // TODO: determine whether year + month already exists in database
-        if(dateExists){
-            Map<String, Double> oldData = getData(month, year);
-            for (String category: oldData.keySet()){
-                // update data
-                oldData.put(category, oldData.get(category) + newData.get(category));
-            }
-        }
-        else {
+//        boolean dateExists = false; // TODO: determine whether year + month already exists in database
+//        if(dateExists){
+//            Map<String, Double> oldData = getData(month, year);
+//            for (String category: oldData.keySet()){
+//                // update data
+//                oldData.put(category, oldData.get(category) + newData.get(category));
+//            }
+//        }
+//        else {
             addData(newData, month, year);
-        }
+        //}
     }
 
 /*    public JSONObject imageRead(String path) {
@@ -206,9 +206,10 @@ public class AppController {
                 else if(prediction.get("name").matches("/Shopping/Apparel")){
                     predCategory = "Clothing";
                 }
-                else if(prediction.get("name").matches("/Arts & Entertainment"){
+                else if(prediction.get("name").matches("/Arts & Entertainment")){
                     predCategory = "Entertainment";
-                }else{
+                }
+                else{
                     predCategory = "Other";
                 }
 
