@@ -36,7 +36,7 @@
             android:textSize="14sp" />
 
         <Button
-            android:id="@+id/EntertainmentBtn"
+            android:id="@+id/entertainmentBtn"
             android:layout_width="100px"
             android:layout_height="wrap_content"
             android:layout_weight="1"

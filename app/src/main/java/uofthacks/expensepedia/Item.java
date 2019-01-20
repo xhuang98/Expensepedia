@@ -1,9 +1,13 @@
 package uofthacks.expensepedia;
 
+import android.view.View;
+
 public class Item {
     public String name;
     public Double price;
     public String category;
+    public boolean checked = false;
+    View v = null;
 
     public Item(String name, Double price) {
         this.name = name;

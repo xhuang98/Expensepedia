@@ -153,7 +153,7 @@ public class AppController {
         int year = Integer.parseInt(dateFormatted.substring(0, 3));
         int month = Integer.parseInt(dateFormatted.substring(5, 6));
 
-//        boolean dateExists = false; // TODO: determine whether year + month already exists in database
+//        boolean dateExists = false;
 //        if(dateExists){
 //            Map<String, Double> oldData = getData(month, year);
 //            for (String category: oldData.keySet()){
@@ -210,12 +210,12 @@ public class AppController {
 
     }
 
-    
-private Map<String, String> getCategories(){ // TODO: Access database
+
+public Map<String, String> getCategories(){ // TODO: Access database
     return null;
 }
 
-private void setCategories(Map<String, String> knownCat){
+public void setCategories(Map<String, String> knownCat){
     Map<String, String> newMap = getCategories();
     // union
     newMap.putAll(knownCat);
@@ -279,7 +279,6 @@ public ArrayList<Item> categorize(Map<String, Double> purchases){
 //        Map<String, Double> certains = new HashMap<>();
 //        try{
 //            for (String purchase : purchases.keySet()) {
-//                // TODO: use classifyText() from Google
 //                JSONObject prediction;
 //                String predCategory;
 //                if(prediction.get("name").matches("/Food & Drink")){
