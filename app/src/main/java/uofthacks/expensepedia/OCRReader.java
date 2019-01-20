@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,6 +70,40 @@ public class OCRReader {
              e.printStackTrace();
         }
         return getOCRAnalysisResult(readAllBytes);
+    }
+
+    /*
+  Print out the Result of OCR to STDOUT
+ */
+    public void printOCRResult(OCRResponseJSONBody body) {
+        String language = body.getLanguage();
+        String orientation = body.getOrientation();
+        String textAngle = body.getTextAngle();
+
+        List<Regions> regions = body.getRegions();
+        for (Regions region: regions) {
+            List<Lines> lines = region.getLines();
+            for (Lines line: lines) {
+                List<Words> words = line.getWords();
+                for (Words word: words) {
+                    String text = word.getText();
+                    System.out.println(text);
+                }
+                System.out.println("");
+            }
+
+        }
+//        regions.stream().forEach(region -> {
+//            List<Lines> lines = region.getLines();
+//            lines.stream().forEach(line -> {
+//                List<Words> words = line.getWords();
+//                words.stream().forEach(word -> {
+//                    String text = word.getText();
+//                    System.out.print(text);
+//                });
+//                System.out.println("");
+//            });
+//        });
     }
 
     /*
