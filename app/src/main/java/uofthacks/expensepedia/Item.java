@@ -9,6 +9,11 @@ public class Item {
     public boolean checked = false;
     View v = null;
 
+    public Item(String name, Double price) {
+        this.name = name;
+        this.price = price;
+    }
+
     public Item(String name, Double price, String category) {
         this.name = name;
         this.price = price;

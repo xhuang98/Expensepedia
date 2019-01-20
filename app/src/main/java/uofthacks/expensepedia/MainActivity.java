@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -47,8 +48,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        CustomView customView = new CustomView(this);
 
-        Button button = findViewById(R.id.button);
+        ImageButton button = findViewById(R.id.button);
 
 
         Button listViewBtn = (Button) findViewById(R.id.listViewBtn);

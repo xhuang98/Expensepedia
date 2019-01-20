@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,18 +7,75 @@
     android:background="#2B3A42"
     tools:context=".MainActivity">
 
-    <Button
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_january" />
+
+    <ImageView
+        android:id="@+id/settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_settings_icon" />
+
+    <ImageButton
+        android:id="@+id/history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="55dp"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_history_icon" />
+
+    <ImageButton
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_camera_icon" />
 
     <Button
         android:id="@+id/listViewBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:clickable="true"
         android:gravity="center_horizontal"
-        android:text="Button" />
+        android:text="Button"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_gallery_icon" />
+
+    <uofthacks.expensepedia.CustomView
+        android:layout_width="match_parent"
+        android:layout_height="680dp" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -28,4 +85,60 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/food_expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginBottom="4dp"
+        android:text="$141.36"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/wh"
+        app:fontFamily="@font/helveticaltstd_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/enter_expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="38dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="4dp"
+        android:text="$132.36"
+        android:textColor="@color/wh"
+        app:fontFamily="@font/helveticaltstd_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/food_expense" />
+
+    <TextView
+        android:id="@+id/cloth_expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="38dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="4dp"
+        android:text="$236.36"
+        android:textColor="@color/wh"
+        app:fontFamily="@font/helveticaltstd_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/enter_expense" />
+
+    <TextView
+        android:id="@+id/other_expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="38dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="4dp"
+        android:text="$536.36"
+        android:textColor="@color/wh"
+        app:fontFamily="@font/helveticaltstd_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cloth_expense" />
+
+</android.support.constraint.ConstraintLayout>

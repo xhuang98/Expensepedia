@@ -1,5 +1,6 @@
 package uofthacks.expensepedia;
 
+import android.graphics.Bitmap;
 import android.provider.DocumentsContract;
 import android.support.annotation.NonNull;
 
@@ -21,10 +22,21 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.client.methods.HttpPost;*/
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ByteArrayEntityHC4;
+import org.apache.http.entity.FileEntity;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.net.URI;
 import java.text.SimpleDateFormat;
@@ -42,7 +54,7 @@ public class AppController {
 
     private String[] categories =  new String[]{"Dining", "Clothing", "Entertainment", "Other"};
 
-    private AppController(){}
+    public AppController(){}
 
     public static AppController getInstance(){
         if (instance == null){
@@ -141,7 +153,7 @@ public class AppController {
         int year = Integer.parseInt(dateFormatted.substring(0, 3));
         int month = Integer.parseInt(dateFormatted.substring(5, 6));
 
-//        boolean dateExists = false; // TODO: determine whether year + month already exists in database
+//        boolean dateExists = false;
 //        if(dateExists){
 //            Map<String, Double> oldData = getData(month, year);
 //            for (String category: oldData.keySet()){
@@ -154,8 +166,13 @@ public class AppController {
         //}
     }
 
-/*    public JSONObject imageRead(String path) {
+    public JSONObject imageRead(Bitmap bmp) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        bmp.recycle();
 
         try {
             URIBuilder uriBuilder = new URIBuilder(uriBase);
@@ -169,8 +186,8 @@ public class AppController {
 
             request.setHeader("Content-Type", "applications/octet-stream");
 
-            File file = new File(path);
-            FileEntity requestEntity = new FileEntity(file, "image/png");
+//            File file = new File(path);
+            ByteArrayEntityHC4 requestEntity = new ByteArrayEntityHC4(byteArray);
 
             request.setEntity(requestEntity);
 
@@ -183,52 +200,116 @@ public class AppController {
                 String jsonString = EntityUtils.toString(entity);
                 JSONObject json = new JSONObject(jsonString);
                 return json;
-//                System.out.println("REST Response:\n");
-//                System.out.println(json.toString(2));
+
             }
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
         return null;
-    }*/
-/*    public ArrayList<Item> categorize(Map<String, Double> purchases){
-        ArrayList<Item> uncertains = new ArrayList<>();
-        Map<String, Double> certains = new HashMap<>();
-        try{
-            for (String purchase : purchases.keySet()) {
-                // TODO: use classifyText() from Google
-                JSONObject prediction;
-                String predCategory;
-                if(prediction.get("name").matches("/Food & Drink")){
-                    predCategory = "Food";
-                }
-                else if(prediction.get("name").matches("/Shopping/Apparel")){
-                    predCategory = "Clothing";
-                }
-                else if(prediction.get("name").matches("/Arts & Entertainment")){
-                    predCategory = "Entertainment";
-                }
-                else{
-                    predCategory = "Other";
-                }
 
-                if(prediction.getDouble("confidence") > 0.8){
-                    certains.put(purchase, purchases.get(purchase));
-                }
-                else{
-                    Item uncertainItem = new Item(purchase, purchases.get(purchase), predCategory);
-                    uncertains.add(uncertainItem);
-                }
-            }
-            if(!certains.isEmpty()){
-                updateData(certains);
-            }
-        }catch (JSONException e){
-            // LOL
+    }
+
+
+private Map<String, String> getCategories(){ // TODO: Access database
+    return null;
+}
+
+private void setCategories(Map<String, String> knownCat){
+    Map<String, String> newMap = getCategories();
+    // union
+    newMap.putAll(knownCat);
+    //TODO: put back in database
+}
+
+
+public ArrayList<Item> categorize(Map<String, Double> purchases){
+    Map<String, Double> knownGoods = new HashMap<>();
+    ArrayList<Item> unknownGoods = new ArrayList<>();
+    Map<String, String> categories = getCategories();
+    for (String purchase: purchases.keySet()){
+        if(categories.containsKey(purchase)){
+            knownGoods.put(purchase, purchases.get(purchase));
         }
-        return uncertains;
-    }*/
+        else{
+            unknownGoods.add(new Item(purchase, purchases.get(purchase)));
+        }
+    }
+    updateData(knownGoods);
+    return unknownGoods;
+//        ArrayList<Item> uncertains = new ArrayList<>();
+//        Map<String, Double> certains = new HashMap<>();
+//        //try{
+//            for (String purchase : purchases.keySet()) {
+////                JSONObject prediction;
+////                String predCategory;
+////                if(prediction.get("name").matches("/Food & Drink")){
+////                    predCategory = "Food";
+////                }
+////                else if(prediction.get("name").matches("/Shopping/Apparel")){
+////                    predCategory = "Clothing";
+////                }
+////                else if(prediction.get("name").matches("/Arts & Entertainment")){
+////                    predCategory = "Entertainment";
+////                }
+////                else{
+////                    predCategory = "Other";
+////                }
+////
+////                if(prediction.getDouble("confidence") > 0.8){
+////                    certains.put(purchase, purchases.get(purchase));
+////                }
+////                else{
+////                    Item uncertainItem = new Item(purchase, purchases.get(purchase), predCategory);
+////                    uncertains.add(uncertainItem);
+////                }
+//
+//            }
+//            //if(!certains.isEmpty()){
+//                updateData(certains);
+//            //}
+//        //}catch (JSONException e){
+//            // LOL
+//        //}
+//        return uncertains;
+    }
+
+//    public ArrayList<Item> categorize(Map<String, Double> purchases){
+//        ArrayList<Item> uncertains = new ArrayList<>();
+//        Map<String, Double> certains = new HashMap<>();
+//        try{
+//            for (String purchase : purchases.keySet()) {
+//                JSONObject prediction;
+//                String predCategory;
+//                if(prediction.get("name").matches("/Food & Drink")){
+//                    predCategory = "Food";
+//                }
+//                else if(prediction.get("name").matches("/Shopping/Apparel")){
+//                    predCategory = "Clothing";
+//                }
+//                else if(prediction.get("name").matches("/Arts & Entertainment")){
+//                    predCategory = "Entertainment";
+//                }
+//                else{
+//                    predCategory = "Other";
+//                }
+//
+//                if(prediction.getDouble("confidence") > 0.8){
+//                    certains.put(purchase, purchases.get(purchase));
+//                }
+//                else{
+//                    Item uncertainItem = new Item(purchase, purchases.get(purchase), predCategory);
+//                    uncertains.add(uncertainItem);
+//                }
+//            }
+//            if(!certains.isEmpty()){
+//                updateData(certains);
+//            }
+//        }catch (JSONException e){
+//            // LOL
+//        }
+//        return uncertains;
+//    }
 
     /**
      * Extracts purchased items and their prices from JSON object of texts in image
