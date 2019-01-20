@@ -61,29 +61,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-/*        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        CollectionReference col = db.collection("stores");
-
-        Map<String, Object> store = new HashMap<>();
-        store.put("name", "Best Buy");
-
-        db.collection("stores")
-                .add(store)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        System.out.println("DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        System.out.println("Error adding document");
-                    }
-                });*/
-
-
         File dir = getExternalFilesDir(Environment.DIRECTORY_DCIM);
         dir.mkdirs();
         output = new File(dir, "mCameraContent.jpeg");
@@ -109,18 +86,27 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_GALLERY || requestCode == REQUEST_CAMERA) {
-                Uri uri = Uri.fromFile(output);
 
-                mSelectedImageUri = uri.toString();
+        try {
+            if (resultCode == Activity.RESULT_OK) {
+                if (requestCode == REQUEST_GALLERY || requestCode == REQUEST_CAMERA) {
+                    Uri uri = Uri.fromFile(output);
 
-                // Fetch the Bitmap from the Uri.
-                Bitmap selectedImage = fetchBitmapFromUri(uri);
-                System.out.println("BITMAP");
-                System.out.println(selectedImage);
+                    mSelectedImageUri = uri.toString();
+
+                    // Fetch the Bitmap from the Uri.
+                    Bitmap selectedImage = fetchBitmapFromUri(uri);
+                    System.out.println("BITMAP");
+                    System.out.println(selectedImage);
+
+                    System.out.println(AppController.getInstance().fileImageRead(output).toString());
+                }
             }
+        } catch (Exception e) {
+            System.out.println("HERERERERER");
+            System.out.println(e.getMessage());
         }
+
     }
 
     /**

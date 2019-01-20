@@ -61,8 +61,7 @@ public class ManualSortActivity extends AppCompatActivity {
                     }
                 }
 
-
-                //TODO: call firebase function on checked items
+                //.getInstance().addItemsToCategory(checkedItems, category);
             }
         });
     }

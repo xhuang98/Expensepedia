@@ -2,6 +2,8 @@ package uofthacks.expensepedia;
 
 import android.view.View;
 
+import java.util.List;
+
 public class Item {
     public String name;
     public Double price;
@@ -42,5 +44,9 @@ public class Item {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public void addItemsToCategory(List<Item> itemList, String category) {
+
     }
 }
