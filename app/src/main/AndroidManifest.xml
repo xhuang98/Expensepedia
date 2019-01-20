@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".BarGraphActivity"></activity>
+        <activity android:name=".ManualSortActivity"></activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

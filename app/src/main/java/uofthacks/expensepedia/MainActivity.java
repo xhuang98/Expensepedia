@@ -50,6 +50,15 @@ public class MainActivity extends AppCompatActivity {
 
         Button button = findViewById(R.id.button);
 
+
+        Button listViewBtn = (Button) findViewById(R.id.listViewBtn);
+        listViewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ManualSortActivity.class));
+            }
+        });
+
 /*        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         CollectionReference col = db.collection("stores");
