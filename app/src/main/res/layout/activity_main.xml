@@ -14,13 +14,15 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_january" />
 
-    <ImageView
-        android:id="@+id/settings"
+    <ImageButton
+        android:id="@+id/listViewBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_settings_icon" />
@@ -51,16 +53,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_camera_icon" />
 
-    <Button
-        android:id="@+id/listViewBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:clickable="true"
-        android:gravity="center_horizontal"
-        android:text="Button"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="16dp" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -107,7 +99,7 @@
         android:layout_marginStart="38dp"
         android:layout_marginLeft="8dp"
         android:layout_marginBottom="4dp"
-        android:text="$132.36"
+        android:text="$117.36"
         android:textColor="@color/wh"
         app:fontFamily="@font/helveticaltstd_light"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -121,7 +113,7 @@
         android:layout_marginStart="38dp"
         android:layout_marginLeft="8dp"
         android:layout_marginBottom="4dp"
-        android:text="$236.36"
+        android:text="$165.36"
         android:textColor="@color/wh"
         app:fontFamily="@font/helveticaltstd_light"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -135,7 +127,7 @@
         android:layout_marginStart="38dp"
         android:layout_marginLeft="8dp"
         android:layout_marginBottom="4dp"
-        android:text="$536.36"
+        android:text="$89.36"
         android:textColor="@color/wh"
         app:fontFamily="@font/helveticaltstd_light"
         app:layout_constraintBottom_toBottomOf="parent"

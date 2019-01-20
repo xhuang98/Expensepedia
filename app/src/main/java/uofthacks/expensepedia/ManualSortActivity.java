@@ -34,7 +34,7 @@ public class ManualSortActivity extends AppCompatActivity {
         itemsList = new ArrayList<>();
         itemsList.add(new Item("Banana", 4.56, "Groceries"));
         itemsList.add(new Item("Shoes", 4.56, "Groceries"));
-        itemsList.add(new Item("Cocaine", 4.56, "Groceries"));
+        itemsList.add(new Item("Dragon Fruit", 4.56, "Groceries"));
         itemsList.add(new Item("Basketball", 4.56, "Groceries"));
 
         mAdapter = new ItemAdapter(this, itemsList);
