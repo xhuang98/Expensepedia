@@ -51,13 +51,20 @@ public class MainActivity extends AppCompatActivity {
         CustomView customView = new CustomView(this);
 
         ImageButton button = findViewById(R.id.button);
+        ImageButton historyBtn = findViewById(R.id.history);
+        Button listViewBtn = findViewById(R.id.listViewBtn);
 
-
-        Button listViewBtn = (Button) findViewById(R.id.listViewBtn);
         listViewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, ManualSortActivity.class));
+            }
+        });
+
+        historyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, HistoryDataActivity.class));
             }
         });
 
