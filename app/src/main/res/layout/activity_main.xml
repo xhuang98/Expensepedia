@@ -85,5 +85,60 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
 
+    <TextView
+        android:id="@+id/food_expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginBottom="4dp"
+        android:text="$141.36"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/wh"
+        app:fontFamily="@font/helveticaltstd_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/enter_expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="38dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="4dp"
+        android:text="$132.36"
+        android:textColor="@color/wh"
+        app:fontFamily="@font/helveticaltstd_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/food_expense" />
+
+    <TextView
+        android:id="@+id/cloth_expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="38dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="4dp"
+        android:text="$236.36"
+        android:textColor="@color/wh"
+        app:fontFamily="@font/helveticaltstd_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/enter_expense" />
+
+    <TextView
+        android:id="@+id/other_expense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="38dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="4dp"
+        android:text="$536.36"
+        android:textColor="@color/wh"
+        app:fontFamily="@font/helveticaltstd_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cloth_expense" />
 
 </android.support.constraint.ConstraintLayout>
