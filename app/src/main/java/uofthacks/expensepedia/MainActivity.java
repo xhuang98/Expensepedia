@@ -116,18 +116,27 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_GALLERY || requestCode == REQUEST_CAMERA) {
-                Uri uri = Uri.fromFile(output);
 
-                mSelectedImageUri = uri.toString();
+        try {
+            if (resultCode == Activity.RESULT_OK) {
+                if (requestCode == REQUEST_GALLERY || requestCode == REQUEST_CAMERA) {
+                    Uri uri = Uri.fromFile(output);
 
-                // Fetch the Bitmap from the Uri.
-                Bitmap selectedImage = fetchBitmapFromUri(uri);
-                System.out.println("BITMAP");
-                System.out.println(selectedImage);
+                    mSelectedImageUri = uri.toString();
+
+                    // Fetch the Bitmap from the Uri.
+                    Bitmap selectedImage = fetchBitmapFromUri(uri);
+                    System.out.println("BITMAP");
+                    System.out.println(selectedImage);
+
+                    System.out.println(AppController.getInstance().fileImageRead(output).toString());
+                }
             }
+        } catch (Exception e) {
+            System.out.println("HERERERERER");
+            System.out.println(e.getMessage());
         }
+
     }
 
     /**

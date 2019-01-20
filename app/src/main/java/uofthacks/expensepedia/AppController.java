@@ -38,6 +38,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -81,6 +82,17 @@ public class AppController {
     public void changeDate(int month, int year){
         monthToView = month;
         yearToView = year;
+    }
+
+    public void addItemsToCategory(List<Item> itemList, String category) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        for (int i = 0; i < itemList.size(); i++) {
+            Map<String, String> map = new HashMap<>();
+            map.put(category, itemList.get(i).name);
+
+            db.collection("categories").add(map);
+        }
     }
 
     /**
@@ -175,25 +187,31 @@ public class AppController {
         bmp.recycle();
 
         try {
+            System.out.println("HERE 1");
             URIBuilder uriBuilder = new URIBuilder(uriBase);
-
+            System.out.println("HERE 2");
             uriBuilder.setParameter("language", "unk");
             uriBuilder.setParameter("detectOrientation", "true");
-
+            System.out.println("HERE 3");
             // Request parameters.
             URI uri = uriBuilder.build();
+            System.out.println("HERE 4");
             HttpPost request = new HttpPost(uri);
-
+            System.out.println("HERE 5");
             request.setHeader("Content-Type", "applications/octet-stream");
-
+            System.out.println("HERE 6");
 //            File file = new File(path);
             ByteArrayEntityHC4 requestEntity = new ByteArrayEntityHC4(byteArray);
-
+            System.out.println("HERE 7");
             request.setEntity(requestEntity);
+            System.out.println("HERE 8");
 
             // Call the REST API method and get the response entity.
             HttpResponse response = httpClient.execute(request);
+            System.out.println("HERE 9");
             HttpEntity entity = response.getEntity();
+            System.out.println("RESULT");
+            System.out.println(response.getEntity());
 
             if (entity != null) {
                 // Format and display the JSON response.
@@ -203,13 +221,66 @@ public class AppController {
 
             }
 
-        } catch (Exception e) {
+        } catch (IOException e) {
+            System.out.println(e.getCause());
             System.err.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
         return null;
 
     }
 
+
+    public JSONObject fileImageRead(File file) {
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+
+        try {
+            URIBuilder uriBuilder = new URIBuilder(uriBase);
+
+            uriBuilder.setParameter("language", "unk");
+            uriBuilder.setParameter("detectOrientation", "true");
+
+            // Request parameters.
+            URI uri = uriBuilder.build();
+            System.out.println("HERE 4");
+            HttpPost request = new HttpPost(uri);
+            System.out.println("HERE 5");
+            request.setHeader("Content-Type", "applications/octet-stream");
+            request.setHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+            System.out.println("HERE 6");
+//            File file = new File(path);
+
+            FileEntity requestEntity = new FileEntity(file, "image/png");
+            request.setEntity(requestEntity);
+            System.out.println("HERE 8");
+
+
+
+            // Call the REST API method and get the response entity.
+            HttpResponse response = httpClient.execute(request);
+            System.out.println("HERE 9");
+            HttpEntity entity = response.getEntity();
+            System.out.println("RESULT");
+            System.out.println(response.getEntity());
+
+            if (entity != null) {
+                // Format and display the JSON response.
+                String jsonString = EntityUtils.toString(entity);
+                JSONObject json = new JSONObject(jsonString);
+                return json;
+
+            }
+
+        } catch (IOException e) {
+            System.out.println(e.getCause());
+            System.err.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+
+    }
 
 public Map<String, String> getCategories(){ // TODO: Access database
     return null;
