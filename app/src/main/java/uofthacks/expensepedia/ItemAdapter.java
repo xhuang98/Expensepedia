@@ -16,22 +16,21 @@ import java.util.List;
 public class ItemAdapter extends ArrayAdapter<Item> {
 
     private Context mContext;
-    private List<Item> itemsList;
 
     public ItemAdapter(@NonNull Context context, ArrayList<Item> list) {
         super(context, 0 , list);
         mContext = context;
-        itemsList = list;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
         if(listItem == null)
             listItem = LayoutInflater.from(mContext).inflate(R.layout.list_item,parent,false);
 
-        Item currentItem = itemsList.get(position);
+        Item currentItem = ManualSortActivity.itemsList.get(position);
+        currentItem.v = listItem;
 
         TextView itemName = (TextView)listItem.findViewById(R.id.itemName);
         itemName.setText(currentItem.name);
@@ -42,7 +41,24 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         ImageView icon = (ImageView)listItem.findViewById(R.id.imageView_poster);
         //icon.setImageResource();
 
+        View listItem2 = listItem;
+        listItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("LOGGING");
+                Item item = ManualSortActivity.itemsList.get(position);
+                if (item.checked) {
+                    System.out.println("running");
+                    item.checked = false;
+                    listItem2.setBackgroundColor(listItem2.getResources().getColor(R.color.colorAccent));
+                } else {
+                    System.out.println("running 2");
+                    item.checked = true;
+                    listItem2.setBackgroundColor(listItem2.getResources().getColor(R.color.colorPrimary));
+                }
+            }
+        });
+
         return listItem;
     }
-
 }
