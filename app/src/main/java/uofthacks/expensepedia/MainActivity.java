@@ -50,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         CustomView customView = new CustomView(this);
 
-
-
         ImageButton button = findViewById(R.id.button);
 
 
