@@ -5,6 +5,11 @@ public class Item {
     public Double price;
     public String category;
 
+    public Item(String name, Double price) {
+        this.name = name;
+        this.price = price;
+    }
+
     public Item(String name, Double price, String category) {
         this.name = name;
         this.price = price;

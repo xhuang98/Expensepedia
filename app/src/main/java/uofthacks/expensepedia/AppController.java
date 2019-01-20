@@ -192,43 +192,68 @@ public class AppController {
         }
         return null;
     }*/
-/*    public ArrayList<Item> categorize(Map<String, Double> purchases){
-        ArrayList<Item> uncertains = new ArrayList<>();
-        Map<String, Double> certains = new HashMap<>();
-        try{
-            for (String purchase : purchases.keySet()) {
-                // TODO: use classifyText() from Google
-                JSONObject prediction;
-                String predCategory;
-                if(prediction.get("name").matches("/Food & Drink")){
-                    predCategory = "Food";
-                }
-                else if(prediction.get("name").matches("/Shopping/Apparel")){
-                    predCategory = "Clothing";
-                }
-                else if(prediction.get("name").matches("/Arts & Entertainment")){
-                    predCategory = "Entertainment";
-                }
-                else{
-                    predCategory = "Other";
-                }
+private Map<String, String> getCategories(){ // TODO: Access database
+    return null;
+}
 
-                if(prediction.getDouble("confidence") > 0.8){
-                    certains.put(purchase, purchases.get(purchase));
-                }
-                else{
-                    Item uncertainItem = new Item(purchase, purchases.get(purchase), predCategory);
-                    uncertains.add(uncertainItem);
-                }
-            }
-            if(!certains.isEmpty()){
-                updateData(certains);
-            }
-        }catch (JSONException e){
-            // LOL
+private void setCategories(Map<String, String> knownCat){
+    Map<String, String> newMap = getCategories();
+    // union
+    newMap.putAll(knownCat);
+    //TODO: put back in database
+}
+
+
+public ArrayList<Item> categorize(Map<String, Double> purchases){
+    Map<String, Double> knownGoods = new HashMap<>();
+    ArrayList<Item> unknownGoods = new ArrayList<>();
+    Map<String, String> categories = getCategories();
+    for (String purchase: purchases.keySet()){
+        if(categories.containsKey(purchase)){
+            knownGoods.put(purchase, purchases.get(purchase));
         }
-        return uncertains;
-    }*/
+        else{
+            unknownGoods.add(new Item(purchase, purchases.get(purchase)));
+        }
+    }
+    updateData(knownGoods);
+    return unknownGoods;
+//        ArrayList<Item> uncertains = new ArrayList<>();
+//        Map<String, Double> certains = new HashMap<>();
+//        //try{
+//            for (String purchase : purchases.keySet()) {
+////                JSONObject prediction;
+////                String predCategory;
+////                if(prediction.get("name").matches("/Food & Drink")){
+////                    predCategory = "Food";
+////                }
+////                else if(prediction.get("name").matches("/Shopping/Apparel")){
+////                    predCategory = "Clothing";
+////                }
+////                else if(prediction.get("name").matches("/Arts & Entertainment")){
+////                    predCategory = "Entertainment";
+////                }
+////                else{
+////                    predCategory = "Other";
+////                }
+////
+////                if(prediction.getDouble("confidence") > 0.8){
+////                    certains.put(purchase, purchases.get(purchase));
+////                }
+////                else{
+////                    Item uncertainItem = new Item(purchase, purchases.get(purchase), predCategory);
+////                    uncertains.add(uncertainItem);
+////                }
+//
+//            }
+//            //if(!certains.isEmpty()){
+//                updateData(certains);
+//            //}
+//        //}catch (JSONException e){
+//            // LOL
+//        //}
+//        return uncertains;
+    }
 
     /**
      * Extracts purchased items and their prices from JSON object of texts in image
