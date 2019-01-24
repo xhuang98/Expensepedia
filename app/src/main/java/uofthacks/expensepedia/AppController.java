@@ -1,6 +1,7 @@
 package uofthacks.expensepedia;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.provider.DocumentsContract;
 import android.support.annotation.NonNull;
 
@@ -24,13 +25,19 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.client.methods.HttpPost;*/
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ByteArrayEntityHC4;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +47,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -179,31 +187,40 @@ public class AppController {
     }
 
     public JSONObject imageRead(Bitmap bmp) {
+        System.out.println("BYTES");
+        System.out.println(bmp.getByteCount());
+
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        bmp.compress(Bitmap.CompressFormat.JPEG, 0, stream);
+
+        System.out.println("DIMENSIONS");
+        System.out.println(bmp.getHeight());
+        System.out.println(bmp.getWidth());
+
         byte[] byteArray = stream.toByteArray();
-        bmp.recycle();
+        //bmp.recycle();
 
         try {
-            System.out.println("HERE 1");
             URIBuilder uriBuilder = new URIBuilder(uriBase);
-            System.out.println("HERE 2");
             uriBuilder.setParameter("language", "unk");
             uriBuilder.setParameter("detectOrientation", "true");
-            System.out.println("HERE 3");
+
             // Request parameters.
             URI uri = uriBuilder.build();
-            System.out.println("HERE 4");
+            System.out.println(uri.toString() + "URI");
             HttpPost request = new HttpPost(uri);
-            System.out.println("HERE 5");
-            request.setHeader("Content-Type", "applications/octet-stream");
-            System.out.println("HERE 6");
-//            File file = new File(path);
-            ByteArrayEntityHC4 requestEntity = new ByteArrayEntityHC4(byteArray);
-            System.out.println("HERE 7");
-            request.setEntity(requestEntity);
+            request.setHeader("Content-Type", "application/octet-stream");
+            request.setHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+
+            //ByteArrayEntityHC4 requestEntity = new ByteArrayEntityHC4(byteArray);
+
+
+
+            request.setEntity(BitmapFactory.decodeByteArray(byteArray,0,byteArray.length));
+
+            request.setEntity(reqEntity);
             System.out.println("HERE 8");
 
             // Call the REST API method and get the response entity.
@@ -212,6 +229,25 @@ public class AppController {
             HttpEntity entity = response.getEntity();
             System.out.println("RESULT");
             System.out.println(response.getEntity());
+
+
+
+/*            HttpClient httpclient;
+            HttpPost httpPost;
+            ArrayList<NameValuePair> postParameters;
+            httpclient = new DefaultHttpClient();
+            httpPost = new HttpPost(uri);
+
+
+            postParameters = new ArrayList<NameValuePair>();
+            postParameters.add(new BasicNameValuePair("Content-Type", "application/octet-stream"));
+            postParameters.add(new BasicNameValuePair("Ocp-Apim-Subscription-Key", subscriptionKey));
+
+            httpPost.setEntity(new UrlEncodedFormEntity(postParameters, "UTF-8"));
+
+            HttpResponse response = httpclient.execute(httpPost);
+            System.out.println("SUCCCESS");
+            HttpEntity entity = response.getEntity();*/
 
             if (entity != null) {
                 // Format and display the JSON response.
@@ -222,11 +258,16 @@ public class AppController {
             }
 
         } catch (IOException e) {
+            System.out.println("IOEXception");
             System.out.println(e.getCause());
             System.err.println(e.getMessage());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (URISyntaxException e) {
+            System.out.println("k");
+        } catch (JSONException e) {
+            System.out.println("lol");
         }
+
+        System.out.println("wtf");
         return null;
 
     }
